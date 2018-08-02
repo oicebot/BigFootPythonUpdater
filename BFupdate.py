@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import os
 import sys
 import time
@@ -17,23 +19,20 @@ def reporthook(count, block_size, total_size):
     duration = time.time() - start_time + 0.00000000000000001
     progress_size = int(count * block_size)
     speed = int(progress_size / (1024 * duration))
-    percent = int(count * block_size * 100 / total_size)
-    #sys.stdout.write("\r...%d%%, %d MB, %d KB/s, 已用 %d 秒" %
-    #                (percent, progress_size / (1024 * 1024), speed, duration))
+    percent = int(count * block_size * 100 / total_size)    
     print("      ...%d%%, %d MB, %d KB/s, 已用 %d 秒                         " %
            (percent, progress_size / (1024 * 1024), speed, duration), end="\r")
     
-    #sys.stdout.flush()
 
 def savefile(url, filename):
     urllib.request.urlretrieve(url, filename, reporthook)
 
 TempPath = pathlib.Path("Interface")
 
-print("请输入要下载的大脚安装包版本，不知道当前版本号的请访问：")
-print(" http://nga.178.com/read.php?tid=9545469&rand=479 ")
+print("请输入要下载的大脚绿色插件包版本，不知道当前版本号的请访问：")
+print(" http://nga.178.com/read.php?tid=9545469 ")
 
-version = input("例如 8.0.0.694 ： ")
+version = input("例如 8.0.0.695 ： ")
 
 if not version:
     quit()
