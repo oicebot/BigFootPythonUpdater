@@ -13,7 +13,11 @@
 
 ## 使用方式
 
-#### Windows 系统 
+#### 下载地址
+
+https://github.com/oicebot/BigFootPythonUpdater/releases 
+
+#### Windows10 系统 
 1. 将下载的 .exe 文件复制到 WOW 根目录下，跟 _retail_ 文件夹以及 World of Warcraft Launcher.exe 同一目录。
 2. 双击运行 .exe 文件。
 
