@@ -91,12 +91,13 @@ print(" ")
 
 filename = str(os.sep).join(["_retail_","Interface.{}.zip".format(version)])
 
+
 zipPath = pathlib.Path(filename)
 
 if not zipPath.exists():
-    url = "http://wow.bfupdate.178.com/BigFoot/Interface/3.1/{}".format(filename)
+    url = "http://wow.bfupdate.178.com/BigFoot/Interface/3.1/Interface.{}.zip".format(version)
     print(url)
-    print("正在尝试获取", filename, "，请稍候。" )
+    print("正在尝试获取版本", version, "，请稍候。" )
     savefile(url,filename)
     
 else:
@@ -136,4 +137,4 @@ if zipPath.exists():
 else:
     print("文件下载失败，请重试。")
 
-a = input("  ------ 按回车键退出 --------")      
+a = input("  ------ 按回车键退出 --------")       
