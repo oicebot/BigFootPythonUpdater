@@ -12,7 +12,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 import requests
 
-print("BigFoot 绿色插件包自动更新器  20180819 by 欧剃")
+print("BigFoot 绿色插件包自动更新器  20181216 by 欧剃")
 print("--------------------------------------------")
 
 def reporthook(count, block_size, total_size):
@@ -31,11 +31,13 @@ def reporthook(count, block_size, total_size):
 def savefile(url, filename):
     urllib.request.urlretrieve(url, filename, reporthook)
 
-TempPath = pathlib.Path("Interface")
+
+
+TempPath = pathlib.Path(str(os.sep).join(["_retail_","Interface"]))
 
 print("本程序下载的大脚绿色插件包均来自： http://nga.178.com/read.php?tid=9545469 ")
 
-a = input("按回车开始自动检测： ")
+#a = input("按回车开始自动检测： ")
 
 page_link = "http://bigfoot.178.com/wow/update.html"
 
@@ -53,8 +55,12 @@ print("网络版本：", current_version)
 
 local_version = ""
 
+#兼容不同系统的目录分隔符
+#8.1开始 Interface 放在 _retail_ 内
+lua_file_name = str(os.sep).join(["_retail_","Interface","AddOns","BigFoot","Version.cn.lua"])
+
 try:
-    with open("Interface\AddOns\BigFoot\Version.cn.lua","r",encoding='utf-8') as version_lua_file:
+    with open(lua_file_name,"r",encoding='utf-8') as version_lua_file:
         a = ""
         a = version_lua_file.readline()
         #local main= "8.0.0."
@@ -78,11 +84,12 @@ if local_version == version:
         a = input("  ------ 按回车键退出 --------")
         quit()
     
-a = input("按回车开始更新：")
+#a = input("按回车开始更新：")
 
+print("正在开始更新…… ")
 print(" ")
 
-filename = "Interface.{}.zip".format(version)
+filename = str(os.sep).join(["_retail_","Interface.{}.zip".format(version)])
 
 zipPath = pathlib.Path(filename)
 
@@ -99,7 +106,9 @@ print(" ")
 
 if TempPath.exists():
     print("重命名旧 Interface 文件夹... ", end="")
-    TempPath.rename("Interface.old.{}".format(int(time.time())))
+
+    old_folder_name = ["_retail_","Interface.old.{}".format(int(time.time()))]
+    TempPath.rename(str(os.sep).join(old_folder_name))
     print("成功")
 else:
     print("无需重命名。")
@@ -115,8 +124,9 @@ if zipPath.exists():
     current = 0
     
     for name in file.namelist():
+        
 
-        file.extract(name)
+        file.extract(name,path="_retail_")
         current = current + 1
         print("    >>> 解压缩： {} / {} ".format(current,totalNum),end="\r")
         
@@ -126,5 +136,4 @@ if zipPath.exists():
 else:
     print("文件下载失败，请重试。")
 
-a = input("  ------ 按回车键退出 --------")
-        
+a = input("  ------ 按回车键退出 --------")      
