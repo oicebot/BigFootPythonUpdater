@@ -12,8 +12,14 @@
 5. requests
 
 ##使用方式
-1. 安装 Python3 Windows系统可用[国内镜像](https://pan.baidu.com/s/1kU5OCOB#list/path=%2Fpub%2Fpython)
-2. 将 .py 文件复制到 WOW 根目录下，跟 Interface 文件夹同一级。
+
+### Windows 系统 
+1. 将下载的 .exe 文件复制到 WOW 根目录下，跟 _retail_ 文件夹以及 World of Warcraft Launcher.exe 同一目录。
+2. 双击运行 .exe 文件。
+
+### 直接运行 Python 脚本
+1. 安装 Python3
+2. 将 .py 文件复制到 WOW 根目录下，跟 _retail_ 文件夹以及 World of Warcraft Launcher.exe 同一目录。
 3. 双击运行 .py 文件。
 
 ##其他说明
