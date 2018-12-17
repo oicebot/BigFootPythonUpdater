@@ -22,9 +22,12 @@ https://github.com/oicebot/BigFootPythonUpdater/releases
 2. 双击运行 .exe 文件。
 
 #### 直接运行 Python 脚本
-1. 安装 Python3
+1. 安装系统对应的 Python3 本体及依赖
 2. 将 .py 文件复制到 WOW 根目录下，跟 _retail_ 文件夹以及 World of Warcraft Launcher.exe 同一目录。
 3. 双击运行 .py 文件。
+
+####
+详细安装使用教程请看本仓库的 [wiki](https://github.com/oicebot/BigFootPythonUpdater/wiki)
 
 ## 其他说明
 
