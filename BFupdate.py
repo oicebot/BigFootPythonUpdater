@@ -83,6 +83,13 @@ if local_version == version:
         print("不进行任何改动。")
         a = input("  ------ 按回车键退出 --------")
         quit()
+elif int("".join(local_version.split("."))) > int("".join(version.split("."))):
+    a = input("已安装版本比网络发布页的更新，是否强制更新? Y/[N]")
+    if str(a).lower() != "y":
+        print("不进行任何改动。")
+        a = input("  ------ 按回车键退出 --------")
+        quit()
+
     
 #a = input("按回车开始更新：")
 
