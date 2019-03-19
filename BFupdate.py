@@ -87,13 +87,13 @@ if a:
     print(a)
     a = str(input(">>> "))
     if a.lower() != "y":
-        if a[0].isdigit():
-            version = a
-            a = input("准备手动更新 {} 版本，按回车确认开始：".format(version))
-        else:
+        if not a or not a[0].isdigit():
             print("不进行任何改动。")
             a = input("  ------ 按回车键退出 --------")
             quit()
+        else:
+            version = a
+            a = input("准备手动更新 {} 版本，按回车确认开始：".format(version))
 
 print("正在开始更新…… ")
 print(" ")
