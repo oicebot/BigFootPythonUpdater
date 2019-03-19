@@ -77,21 +77,23 @@ finally:
     #version_lua_file.close()
     print("-------------")
 
+a = ""
 if local_version == version:
-    a = input("目前已安装最新版本插件，是否强制更新? Y/[N]")
-    if str(a).lower() != "y":
-        print("不进行任何改动。")
-        a = input("  ------ 按回车键退出 --------")
-        quit()
+    a = "目前已安装最新版本插件，是否强制更新? Y/[N]/手动输入版本号"
 elif int("".join(local_version.split("."))) > int("".join(version.split("."))):
-    a = input("已安装版本比网络发布页的更新，是否强制更新? Y/[N]")
-    if str(a).lower() != "y":
-        print("不进行任何改动。")
-        a = input("  ------ 按回车键退出 --------")
-        quit()
+    a = "已安装版本比网络发布页的更新，是否强制更新? Y/[N]/手动输入版本号"
 
-    
-#a = input("按回车开始更新：")
+if a:
+    print(a)
+    a = str(input(">>> "))
+    if a.lower() != "y":
+        if a[0].isdigit():
+            version = a
+            a = input("准备手动更新 {} 版本，按回车确认开始：".format(version))
+        else:
+            print("不进行任何改动。")
+            a = input("  ------ 按回车键退出 --------")
+            quit()
 
 print("正在开始更新…… ")
 print(" ")
