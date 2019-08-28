@@ -12,7 +12,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 #import requests
 
-print("怀旧服 BigFoot 绿色插件包自动更新器  20190826 by 欧剃")
+print("怀旧服 BigFoot 绿色插件包自动更新器  20190828 by 欧剃")
 print("--------------------------------------------")
 
 def reporthook(count, block_size, total_size):
@@ -31,7 +31,7 @@ def reporthook(count, block_size, total_size):
 def savefile(url, filename):
     urllib.request.urlretrieve(url, filename, reporthook)
 
-TempPath = pathlib.Path(str(os.sep).join(["_retail_","Interface"]))
+TempPath = pathlib.Path(str(os.sep).join(["_classic_","Interface"]))
 
 # ------------------------------------------------------------
 #a = input("按回车开始自动检测： ")
