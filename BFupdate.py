@@ -10,9 +10,8 @@ import zipfile
 import urllib.request
 
 from bs4 import BeautifulSoup
-import requests
 
-print("BigFoot 绿色插件包自动更新器  20181216 by 欧剃")
+print("BigFoot 绿色插件包自动更新器  20190828 by 欧剃")
 print("--------------------------------------------")
 
 def reporthook(count, block_size, total_size):
@@ -37,13 +36,20 @@ TempPath = pathlib.Path(str(os.sep).join(["_retail_","Interface"]))
 
 print("本程序下载的大脚绿色插件包均来自： http://nga.178.com/read.php?tid=9545469 ")
 
-#a = input("按回车开始自动检测： ")
-
 page_link = "http://bigfoot.178.com/wow/update.html"
 
-page_response = requests.get(page_link, timeout=5)
-page_content = BeautifulSoup(page_response.content, "html.parser")
+headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                        'Chrome/51.0.2704.63 Safari/537.36'}
+
+req = urllib.request.Request(url=page_link,headers=headers)
+ 
+res = urllib.request.urlopen(req)
+ 
+data = res.read().decode('utf-8')
+
+page_content = BeautifulSoup(data, "html.parser")
 version_list = page_content.find_all(class_='tit')
+
 #[<span class="tit">V8.0.0.701版本说明</span>,
 # <span class="tit">V8.0.0.700版本说明</span>]
 
@@ -100,14 +106,40 @@ print(" ")
 
 filename = str(os.sep).join(["_retail_","Interface.{}.zip".format(version)])
 
-
 zipPath = pathlib.Path(filename)
 
 if not zipPath.exists():
     url = "http://wow.bfupdate.178.com/BigFoot/Interface/3.1/Interface.{}.zip".format(version)
     print(url)
     print("正在尝试获取版本", version, "，请稍候。" )
-    savefile(url,filename)
+    a = ""
+    while True:
+        try:
+            savefile(url,filename)
+        except:
+            print(" ")
+            print("下载插件包失败，可能是大脚官网下载点挂了，或是官网自动获取的版本号不是最新。")
+            print("请手动输入想要安装的版本号，或按回车直接退出：")
+            a = str(input(">>> "))
+            if not a or not a[0].isdigit():
+                print("不进行任何改动。")
+                a = input("  ------ 按回车键退出 --------")
+                quit()
+            else:
+                version = a
+                filename = str(os.sep).join(["_retail_","Interface.{}.zip".format(version)])
+                zipPath = pathlib.Path(filename)
+                if not zipPath.exists():
+                    url = "http://wow.bfupdate.178.com/BigFoot/Interface/3.1/Interface.{}.zip".format(version)
+                    print(url)
+                    print("正在尝试获取版本", version, "，请稍候。" )
+                else:
+                    print(filename, "已下载。")
+                    break
+               
+        else:
+            break
+            
     
 else:
     print(filename, "已下载。")

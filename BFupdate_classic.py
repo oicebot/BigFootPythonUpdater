@@ -12,7 +12,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 #import requests
 
-print("怀旧服 BigFoot 绿色插件包自动更新器  20190828 by 欧剃")
+print("怀旧服 BigFoot 绿色插件包自动更新器  20190826 by 欧剃")
 print("--------------------------------------------")
 
 def reporthook(count, block_size, total_size):
@@ -126,7 +126,9 @@ if not zipPath.exists():
     try:
         savefile(url,filename)
     except:
-        print("文件下载失败，请重试。")
+        print(" ")
+        print("下载插件包失败，可能是大脚官网下载点挂了，或是官网自动获取的版本号不是最新。")
+        print("鉴于当前怀旧服插件情况，建议重试，或检查你输入的版本号。")
         a = input("  ------ 按回车键退出 --------")       
         exit()
     
