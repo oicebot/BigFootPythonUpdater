@@ -9,10 +9,15 @@ import pathlib
 import zipfile
 import urllib.request
 
-from bs4 import BeautifulSoup
-#import requests
+#from bs4 import BeautifulSoup
 
-print("怀旧服 BigFoot 绿色插件包自动更新器  20190826 by 欧剃")
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
+from selenium.webdriver.support import expected_conditions as EC # available since 2.26.0
+from selenium.webdriver.phantomjs.webdriver import WebDriver
+
+print("怀旧服 BigFoot 绿色插件包自动更新器  20200418 by 欧剃")
 print("--------------------------------------------")
 
 def reporthook(count, block_size, total_size):
@@ -33,33 +38,40 @@ def savefile(url, filename):
 
 TempPath = pathlib.Path(str(os.sep).join(["_classic_","Interface"]))
 
-# ------------------------------------------------------------
-#a = input("按回车开始自动检测： ")
+a = input("按回车开始自动检测： ")
 
-#page_link = "http://nga.178.com/read.php?tid=18302645&_ff=240"
+print("\n开始读取NGA页面，可能需要一点时间……")
 
-#headers = {
-#    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36",
-#    "Connection": "keep-alive",
-#    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-#    "Accept-Language": "zh-CN,zh;q=0.8"
-#    }
-  
-#page_request = urllib.request.Request(url=page_link, headers=headers)
+exename = 'phantomjs.exe' if os.name == 'nt' else 'phantomjs'
 
-#page_response = urllib.request.urlopen(page_request).read()
+driver = WebDriver(executable_path=str(os.sep).join(['selenium','bin',exename]), port=5001)
 
-#page_content = BeautifulSoup(page_response.content, "html.parser")
-#version_list = page_content.find_all(class_='urltip')
-#<span class="urltip">http://wow.bfupdate.178.com/BigFoot/Interface/classic/Interface.1.13.2.1.zip </span>
+page_link = "http://nga.178.com/read.php?tid=18302645&_ff=240"
 
-#current_version = str(version_list[0]).split("Interface.")[0].split(".zip")[-1]
+driver.get(page_link)
 
-#version = str(current_version)
+try:
+    WebDriverWait(driver,15).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "quote"))
+    )
+    print("已读取：", driver.title,"\n")
+except Exception as e:
+    print(e)
 
-#print("网络版本：", current_version)
+quote_list = driver.find_elements_by_class_name("quote")
 
-# ----------------- 由于爬不到NGA帖子内容，可耻地注释了 -----------------
+version_list = quote_list[2].text.split()[0]
+#2020/04/03(1.13.3.47)
+
+#print(version_list)
+
+current_version = str(version_list).split("(")[-1].split(")")[0]
+
+version = str(current_version)
+
+print("网络版本：", current_version)
+
+driver.quit()
 
 local_version = ""
 
@@ -85,12 +97,6 @@ finally:
     #version_lua_file.close()
     print("-------------")
 
-print("本程序下载的大脚绿色插件包均来自： http://nga.178.com/read.php?tid=18302645 ")
-
-print("因 NGACN 网站禁止脚本自动读取帖子内容，请手工打开↑上面这个网址，\n然后输入你想安装的插件包版本号:")
-
-version=input()
-
 a = ""
 if local_version == version or "".join(local_version.split(".")) >= "".join(version.split(".")):
     a = "目前已安装最新版本插件，是否强制更新? Y/[N]/手动输入版本号"
@@ -112,7 +118,7 @@ if a:
 print("正在开始更新…… ")
 print(" ")
 
-filename = str(os.sep).join(["_classic_","Interface.{}.zip".format(version)])
+filename = os.sep.join(["_classic_","Interface.{}.zip".format(version)])
 
 
 zipPath = pathlib.Path(filename)
@@ -122,7 +128,6 @@ if not zipPath.exists():
 
     print("正在尝试获取怀旧服插件版本", version, "，请稍候。" )
 
-    print(url)
     try:
         savefile(url,filename)
     except:
@@ -151,7 +156,7 @@ if zipPath.exists():
 
     print("开始解压文件: " + filename)
 
-    file = zipfile.ZipFile(filename, "r");
+    file = zipfile.ZipFile(filename, "r")
 
     totalNum = len(file.namelist())
     current = 0
